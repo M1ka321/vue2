@@ -11,8 +11,8 @@
       <el-table-column prop="created_at" label="Дата создания" width="180"></el-table-column>
     </el-table>
 
-    <EditFormComponent :visible.sync="dialogFormVisible" :formData="editForm" @save="saveEditForm" />
-    <CreateFormComponent :visible.sync="createFormVisible" @save="saveCreateForm" />
+    <EditFormComponent :visible.sync="dialogFormVisible" :formData="editForm" @save="saveEditForm"/>
+    <CreateFormComponent :visible.sync="createFormVisible" @save="saveCreateForm"/>
   </div>
 </template>
 
@@ -50,22 +50,43 @@ export default {
   methods: {
     openEditForm(row) {
       this.dialogFormVisible = true;
-      this.editForm = { ...row };
+      this.editForm = {...row};
     },
     openCreateForm() {
       this.createFormVisible = true;
+      this.editForm = {
+        id: null,
+        name: "",
+        status: ""
+      };
     },
     saveEditForm() {
-      //изменение дописать
-      this.dialogFormVisible = false;
+      const index = this.tableData.findIndex(item => item.id === this.editForm.id);
+
+      if (index !== -1) {
+        this.tableData[index] = {...this.editForm};
+        this.dialogFormVisible = false;
+      }
+      console.log('Данные после сохранения формы редактирования:', this.tableData);
     },
     saveCreateForm() {
-      //добавление дописать
+      const newId = this.tableData.length + 1;
+
+      const newRecord = {
+        id: newId,
+        name: this.editForm.name,
+        status: this.editForm.status,
+        created_at: new Date().toISOString()
+      };
+      this.tableData.push(newRecord);
       this.createFormVisible = false;
+      console.log('Данные после сохранения формы создания:', this.tableData);
     },
+
     deleteSelected() {
-      // удаление дописать
+      this.tableData = this.tableData.filter(item => !this.selectedRows.includes(item));
       this.selectedRows = [];
+      console.log('Данные после удаления выбранных строк:', this.tableData);
     }
   },
   components: {
