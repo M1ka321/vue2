@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Форма создания" :visible.sync="localVisible">
+  <el-dialog title="Форма создания" :visible.sync="localVisible" @close="handleCancel">
     <el-form :model="localFormData" ref="createForm" label-position="left" label-width="80px">
       <el-form-item label="Название" prop="name">
         <el-input v-model="localFormData.name" autocomplete="off"></el-input>
@@ -48,7 +48,7 @@ export default {
     },
     handleConfirm() {
       this.$emit("update:visible", false);
-      this.$emit("save", { ...this.localFormData });
+      this.$emit("save", {...this.localFormData});
     }
   }
 };

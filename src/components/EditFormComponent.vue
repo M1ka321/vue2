@@ -1,12 +1,13 @@
 <template>
-  <el-dialog title="Форма редактирования" :visible.sync="localVisible">
+  <el-dialog title="Форма редактирования" :visible.sync="localVisible" @close="handleCancel">
     <el-form :model="localFormData" ref="editForm" label-position="left" label-width="80px">
       <el-form-item label="Название" prop="name">
         <el-input v-model="localFormData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="Статус" prop="status">
         <el-select v-model="localFormData.status" placeholder="Выберете статус">
-          <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+          <el-option v-for="option in statusOptions" :key="option.value" :label="option.label"
+                     :value="option.value"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -27,24 +28,24 @@ export default {
   data() {
     return {
       localVisible: this.visible,
-      localFormData: { ...this.formData },
+      localFormData: {...this.formData},
     };
   },
   watch: {
     visible(newVal) {
       this.localVisible = newVal;
-      this.localFormData = { ...this.formData };
+      this.localFormData = {...this.formData};
     }
   },
   methods: {
     handleCancel() {
       this.$emit("update:visible", false);
     },
-      handleConfirm() {
-        this.$emit("update:visible", false);
-        this.$emit("save", { ...this.localFormData, status: parseInt(this.localFormData.status, 10) });
+    handleConfirm() {
+      this.$emit("update:visible", false);
+      this.$emit("save", {...this.localFormData, status: parseInt(this.localFormData.status, 10)});
 
-        },
+    },
   }
 };
 </script>

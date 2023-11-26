@@ -3,11 +3,12 @@
     <el-button type="primary" @click="openCreateForm">Создать</el-button>
     <el-button type="danger" @click="deleteSelected">Удалить</el-button>
 
-    <el-table :data="tableData" @row-click="openEditForm" @selection-change="handleSelectionChange" :default-sort="{ prop: 'id', order: 'ascending' }">
+    <el-table :data="tableData" @row-click="openEditForm" @selection-change="handleSelectionChange"
+              :default-sort="{ prop: 'id', order: 'ascending' }">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="Идентификатор" min-width="18px" ></el-table-column>
+      <el-table-column prop="id" label="Идентификатор" min-width="18px"></el-table-column>
       <el-table-column prop="name" label="Название"></el-table-column>
-      <el-table-column prop="status" label="Статус" >
+      <el-table-column prop="status" label="Статус">
         <template v-slot="{ row }">
           {{ getStatusName(row.status) }}
         </template>
@@ -15,7 +16,8 @@
       <el-table-column prop="created_at" label="Дата создания" width="180"></el-table-column>
     </el-table>
 
-    <EditFormComponent :visible.sync="dialogFormVisible" :formData="editForm" :statusOptions="statusOptions" @save="saveEditForm"/>
+    <EditFormComponent :visible.sync="dialogFormVisible" :formData="editForm" :statusOptions="statusOptions"
+                       @save="saveEditForm"/>
     <CreateFormComponent :visible.sync="createFormVisible" :statusOptions="statusOptions" @save="saveCreateForm"/>
   </div>
 </template>
@@ -48,9 +50,9 @@ export default {
         }
       ],
       statusOptions: [
-        { label: 'Создан', value: '1' },
-        { label: 'Проведен', value: '2' },
-        { label: 'Отменен', value: '3' }
+        {label: 'Создан', value: '1'},
+        {label: 'Проведен', value: '2'},
+        {label: 'Отменен', value: '3'}
       ],
       dialogFormVisible: false,
       createFormVisible: false,
@@ -80,7 +82,7 @@ export default {
     },
     openEditForm(row) {
       this.dialogFormVisible = true;
-      this.editForm = { ...row, status: row.status.toString() };
+      this.editForm = {...row, status: row.status.toString()};
     },
     openCreateForm() {
       this.createFormVisible = true;
@@ -110,9 +112,7 @@ export default {
       this.tableData.push(newRecord);
       this.createFormVisible = false;
     },
-
     deleteSelected() {
-      console.log('Selected Rows:', this.selectedRows);
       this.tableData = this.tableData.filter(item => !this.selectedRows.includes(item));
       this.selectedRows = [];
     }
