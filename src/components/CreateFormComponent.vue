@@ -48,7 +48,7 @@ export default {
     },
     handleConfirm() {
       this.$emit("update:visible", false);
-      this.$emit("save");
+      this.$emit("save", { ...this.localFormData });
     }
   }
 };

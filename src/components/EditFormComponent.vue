@@ -6,9 +6,7 @@
       </el-form-item>
       <el-form-item label="Статус" prop="status">
         <el-select v-model="localFormData.status" placeholder="Выберете статус">
-          <el-option label="Создан" value="1"></el-option>
-          <el-option label="Проведен" value="2"></el-option>
-          <el-option label="Отменен" value="3"></el-option>
+          <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -23,12 +21,13 @@
 export default {
   props: {
     visible: Boolean,
-    formData: Object
+    formData: Object,
+    statusOptions: Array
   },
   data() {
     return {
       localVisible: this.visible,
-      localFormData: { ...this.formData }
+      localFormData: { ...this.formData },
     };
   },
   watch: {
@@ -41,10 +40,11 @@ export default {
     handleCancel() {
       this.$emit("update:visible", false);
     },
-    handleConfirm() {
-      this.$emit("update:visible", false);
-      this.$emit("save");
-    }
+      handleConfirm() {
+        this.$emit("update:visible", false);
+        this.$emit("save", { ...this.localFormData, status: parseInt(this.localFormData.status, 10) });
+
+        },
   }
 };
 </script>
